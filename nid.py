@@ -58,8 +58,12 @@ def _string_lex_cardinal(s, T=ASCII_TABLE, m=2**128):
         i += 1
     return (h + 1) % m
 
-def generate(s, t=0):
-    if t == 0: t = int(round(time.time() * 1000)) - EPOCH
+def generate(s, et=EPOCH):
+    """Generate numerical namespace ID for a given string.
+    @param s: string to generate from
+    @param et: epoch time to base ID from (default is Oct. 08, 2014)
+    """
+    t = int(round(time.time() * 1000)) - et
     h = t << (64-41)
     h |= _string_lex_cardinal(s, ASCII_FREQ_TABLE, 2**16) << (64-41-15)
     h |= random.randrange(0, (2**8)-1)
